@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.apache.logging.log4j.util.StringBuilderFormattable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class DemoPostController {
     //게시글 추가(HTTP 메서드 : POST, 본문 데이터형식 : JSON, 경우 메시지 소비)
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     //ResponseEntity 상태코드 제어
-    @ApiOperation(value = "Swagger Sample - GET", notes = "게시글 추가(HTTP 메서드 : POST, 본문 데이터형식 : JSON, 경우 메시지 소비)")
-    public ResponseEntity<Void> createPost(@RequestBody Map<String, String> requestBody){
+    @ApiOperation(value = "Swagger Sample - POST", notes = "게시글 추가(HTTP 메서드 : POST, 본문 데이터형식 : JSON, 경우 메시지 소비)")
+    public ResponseEntity<String> createPost(@RequestBody Map<String, String> requestBody){
   
 	    System.out.println("createPost");
         //Business Logic 추가
@@ -34,14 +35,15 @@ public class DemoPostController {
         demoEntity.setTitle(requestBody.get("title"));
         demoEntity.setContents(requestBody.get("contents"));
         demoEntities.add(demoEntity);
-        return new ResponseEntity<>(HttpStatus.OK);
+        // return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>("result successful", HttpStatus.OK);
     }
     
     //특정 게시글 조회(HTTP 메서드 : GET, 본문 데이터형식 : 없음, 경우 메시지 소비)
     //ex) localhost:8080/posts/1 
     @GetMapping(value = "/{postId}")
     //PathVariable은 URI에 넘어온 postId 값을 가져오기 위해 사용
-    @ApiOperation(value = "Swagger Sample - POST", notes = "특정 게시글 조회(HTTP 메서드 : GET, 본문 데이터형식 : 없음, 경우 메시지 소비)")
+    @ApiOperation(value = "Swagger Sample - GET", notes = "특정 게시글 조회(HTTP 메서드 : GET, 본문 데이터형식 : 없음, 경우 메시지 소비)")
     public DemoEntity getPost(@PathVariable String postId){
 
         System.out.println("ListPost");
@@ -54,7 +56,7 @@ public class DemoPostController {
     //특정 게시글 업데이트(HTTP 메서드 : PUT, 본문 데이터형식 : 없음, 경우 메시지 소비)
     @PutMapping(value = "/{postId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Swagger Sample - PUT", notes = "특정 게시글 업데이트(HTTP 메서드 : PUT, 본문 데이터형식 : 없음, 경우 메시지 소비)")
-    public ResponseEntity<Void> updatePost(@PathVariable String postId, @RequestBody Map<String, String> requestBody){
+    public ResponseEntity<String> updatePost(@PathVariable String postId, @RequestBody Map<String, String> requestBody){
 
         System.out.println("UpdatePost");
         //Business Logic 추가
@@ -62,17 +64,17 @@ public class DemoPostController {
         demoEntity.setPostId(requestBody.get("postId"));
         demoEntity.setTitle(requestBody.get("title"));
         demoEntity.setContents(requestBody.get("contents"));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("result successful", HttpStatus.OK);
     }
 
     //특정 게시글 삭제(HTTP 메서드 : DELETE, 본문 데이터형식 : 없음, 경우 메시지 소비)
     @DeleteMapping("/{postId}")
     @ApiOperation(value = "Swagger Sample - DELETE", notes = "특정 게시글 삭제(HTTP 메서드 : DELETE, 본문 데이터형식 : 없음, 경우 메시지 소비)")
-    public ResponseEntity<Void> deletePost(@PathVariable String postId){
+    public ResponseEntity<String> deletePost(@PathVariable String postId){
 
         System.out.println("DeletePost");
         //Business Logic 추가
         demoEntities.remove(Integer.parseInt(postId)-1);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("result successful", HttpStatus.OK);
     }
 }
